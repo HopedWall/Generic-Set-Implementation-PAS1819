@@ -87,6 +87,7 @@ public:
 			while(tmp!=0 && removed == false) {
 				if(_equal(tmp->value, value)) {
 					p->next = tmp->next;
+					tmp->prev = p;
 					_count--;
 					removed = true;
 				}
@@ -95,6 +96,23 @@ public:
 			}
 		}
 		return;
+	}
+
+	//Controlla SOLA LETTURA
+	set& operator[](int index) const {
+		nodo *tmp = _head;
+		unsigned int c = 0;
+
+		while(tmp != 0 && c != index){
+			tmp = tmp->next;
+			c++;
+		}
+
+		if(c != index)
+			throw std::out_of_range("not enough elements");
+
+		return tmp->value;
+
 	}
 
 	unsigned int count() const {return _count;}
