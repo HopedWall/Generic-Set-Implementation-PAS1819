@@ -169,6 +169,22 @@ public:
 		_count = 0;
 	}
 
+	//Forse inutile
+	int get_position(T value) const {
+		nodo *tmp = _head;
+		int index = 0;
+
+		if (!contains(value))
+			throw std::invalid_argument("Value is not in set");
+
+		while(tmp!=0 && value!=*tmp) {
+			tmp = tmp->next;
+			index++;
+		}
+
+		return index;
+	}
+
 
 
 	/* INIZIO ITERATOR */
@@ -210,27 +226,33 @@ public:
 
 		// Operatore di accesso random
 		reference operator[](int index) {
-			//!!!
+			return n[index];
 		}
 
 		// Operatore di iterazione post-incremento
 		const_iterator operator++(int) {
-			//!!!
+			const_iterator tmp(n);
+			n = n->next;
+			return tmp;
 		}
 
 		// Operatore di iterazione pre-incremento
 		const_iterator &operator++() {
-			//!!!
+			n = n->next;
+			return *this;
 		}
 
 		// Operatore di iterazione post-decremento
 		const_iterator operator--(int) {
-			//!!!
+			const_iterator tmp(n);
+			n = n->prev;
+			return tmp;
 		}
 
 		// Operatore di iterazione pre-decremento
 		const_iterator &operator--() {
-			//!!!
+			n = n->prev;
+			return *this;
 		}
 
 		// Spostamentio in avanti della posizione
@@ -255,38 +277,38 @@ public:
 
 		// Numero di elementi tra due iteratori
 		difference_type operator-(const const_iterator &other) {
-			//!!!
+			return (n-other.n);
 		}
 
 		// Uguaglianza
 		bool operator==(const const_iterator &other) const {
-			//!!!
+			return (n==other.n);
 		}
 
 		// Diversita'
 		bool operator!=(const const_iterator &other) const {
-			//!!!
+			return (n!=other.n);
 		}
 
 		// Confronto
 		bool operator>(const const_iterator &other) const {
-			//!!!
+			return (n>other.n);
 		}
 
 
 		bool operator>=(const const_iterator &other) const {
-			//!!!
+			return (n>=other.n);
 		}
 
 		// Confronto
 		bool operator<(const const_iterator &other) const {
-			//!!!
+			return (n<other.n);
 		}
 
 
 		// Confronto
 		bool operator<=(const const_iterator &other) const {
-			//!!!
+			return (n<=other.n);
 		}
 
 	private:
@@ -313,18 +335,16 @@ public:
 	}
 
 
-
-
-
-
 }; //set
 
 template <typename T, typename E>
 std::ostream &operator<<(std::ostream &os, const set<T,E> &s) {
 	typename set<T,E>::const_iterator i, ie;
 
+	os << "{";
 	for(i=s.begin(), ie=s.end(); i!=ie; i++)
-		os << *i << std::endl;
+		os << *i << ", " << std::endl;
+	os << "}";
 
 	return os;
 }
