@@ -21,19 +21,6 @@ private:
 	unsigned int _count;
 	Eql _equal;
 
-	bool is_in_set(T val) const {
-		nodo *tmp = _head;
-		bool is_in = false;
-
-		while(tmp != 0 && is_in == false) {
-			if (_equal(tmp->value, val))
-				is_in = true;
-			tmp = tmp->next;
-		}
-
-		return is_in;
-	}
-
 public:
 	//Metodo fondamentale 1: costruttore di default
 	set() : _head(0), _count(0) {}
@@ -59,6 +46,19 @@ public:
 		clear();
 	}
 
+	bool contains(T val) const {
+		nodo *tmp = _head;
+		bool is_in = false;
+
+		while(tmp != 0 && is_in == false) {
+			if (_equal(tmp->value, val))
+				is_in = true;
+			tmp = tmp->next;
+		}
+
+		return is_in;
+	}
+
 	void add(const T &value) {
 		nodo *n = new nodo(value), *tmp = _head;
 
@@ -67,7 +67,7 @@ public:
 			_count = 1;
 		} else {
 			//Controllo che l'elemento non sia già stato inserito
-			if(is_in_set(value))
+			if(contains(value))
 				throw std::invalid_argument("Value is already in set");
 
 			while(tmp->next != 0)
@@ -90,7 +90,7 @@ public:
 		} else {
 
 			//Controllo che l'elemento sia presente nella lista
-			if(!is_in_set(value))
+			if(!contains(value))
 				throw std::invalid_argument("Value is not in set");
 
 			//Controllo che l'elemento da rimuovere non sia il primo
@@ -320,32 +320,41 @@ public:
 }; //set
 
 template <typename T, typename E>
-std::ostream &operator<<(std::ostream &os, const set<T,E> &set) {
+std::ostream &operator<<(std::ostream &os, const set<T,E> &s) {
 	typename set<T,E>::const_iterator i, ie;
 
-	for(i=set.begin(), ie=set.end(); i!=ie; i++)
+	for(i=s.begin(), ie=s.end(); i!=ie; i++)
 		os << *i << std::endl;
 
 	return os;
 }
 
 template <typename T, typename E, typename P>
-set &filter_out(set<T,E> &s, P pred) {
+set<T,E> &filter_out(set<T,E> &s, P pred) {
 	set<T,E> result;
-	typename olist<T,E,C>::const_iterator i, ie;
+	typename set<T,E>::const_iterator i, ie;
 
-	for(i=ol.begin(), ie=ol.end(); i!=ie; i++)
+	for(i=s.begin(), ie=s.end(); i!=ie; i++)
 		if(!pred(*i))
 			result.add(*i);
 
 	return result;
 }
 
+//IDEA: visto che ogni elemento viene inserito esattamente una volta nell'insieme di arrivo
+//mi basta controllare per ogni elemento che non sia gia' presente nel risultato
 template <typename T, typename E>
-set &operator+(set<T,E> &s1, set<T,E> &s2) {
+set<T,E> &operator+(set<T,E> &s1, set<T,E> &s2) {
 	set<T,E> result;
+	typename set<T,E>::const_iterator i1, ie1, i2, ie2;
 
-	//qualcosa
+	for(i1=s1.begin(), ie1=s1.end(); i1!=ie1; i1++)
+		if(!result.contains(*i1))
+			result.add(*i1);
+
+	for(i2=s2.begin(), ie2=s2.end(); i2!=ie2; i2++)
+		if(!result.contains(*i2))
+			result.add(*i2);
 
 	return result;
 }
