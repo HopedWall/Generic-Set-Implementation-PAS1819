@@ -5,6 +5,7 @@
 #include <algorithm> // swap
 #include <iterator>  // std::forward_iterator_tag
 #include <cstddef>   // std::ptrdiff_t
+#include <iostream>
 
 template <typename T, typename Eql>	//Eql necessario in quanto non tutte le classi potrebbero avere operator ==
 class set {
@@ -27,7 +28,17 @@ public:
 
 	//Metodo fondamentale 2: copy constructor
 	set(const set &other) : _head(0), _count(0) {
-		//TODO
+		nodo *tmp = other._head;
+
+		try {
+			while(tmp!=0) {
+				add(tmp->value);
+				tmp = tmp->next;
+			}
+		} catch (...) {
+			clear();
+			throw;
+		}
 	}
 
 	//Metodo fondamentale 3: operator=
@@ -255,29 +266,88 @@ public:
 			return *this;
 		}
 
-		// Spostamentio in avanti della posizione
+		// Spostamento in avanti della posizione
 		const_iterator operator+(int offset) {
-			//!!!
+			const nodo *temp = n;
+			int cont = 0;
+			while(cont != offset) {
+				temp = temp->next;
+				cont++;
+			}
+			const_iterator tmp(temp);
+			return tmp;
 		}
 
-		// Spostamentio all'indietro della posizione
+		// Spostamento all'indietro della posizione
 		const_iterator operator-(int offset) {
-			//!!!
+			const nodo *temp = n;
+			int cont = 0;
+			while(cont != offset) {
+				temp = temp->prev;
+				cont++;
+			}
+			const_iterator tmp(temp);
+			return tmp;
 		}
 
 		// Spostamentio in avanti della posizione
 		const_iterator& operator+=(int offset) {
-			//!!!
+			int cont = 0;
+			while(cont != offset) {
+				n = n->next;
+				cont++;
+			}
+			return *this;
 		}
 
 		// Spostamentio all'indietro della posizione
 		const_iterator& operator-=(int offset) {
-			//!!!
+			int cont = 0;
+			while(cont != offset) {
+				n = n->prev;
+				cont++;
+			}
+			return *this;
 		}
 
 		// Numero di elementi tra due iteratori
 		difference_type operator-(const const_iterator &other) {
-			return (n-other.n);
+			const nodo *tmp = n;
+			int cont = 0;
+			bool trovato = false;
+
+			if(tmp == other.n){
+				std::cout << "Uguale";
+				trovato=true;
+			}
+
+			//Provo ad andare avanti
+			while(tmp!=0 && trovato == false) {
+				std::cout << "Avanti";
+				std::cout << tmp->value << std::endl;
+				tmp = tmp->next;
+				cont--;
+				if(tmp==other.n)
+					trovato = true;
+			}
+
+			if(trovato==false) {
+				cont = 0;
+				tmp = n;
+			}
+
+			//Provo ad andare indietro
+			while(tmp!=0 && trovato == false) {
+				std::cout << "Indietro";
+				std::cout << tmp->value << std::endl;
+				tmp = tmp->prev;
+				cont++;
+				if(tmp==other.n)
+					trovato = true;
+			}
+
+			//std::cout << "trovato " << trovato << std::endl;
+			return cont;
 		}
 
 		// Uguaglianza
@@ -342,15 +412,18 @@ std::ostream &operator<<(std::ostream &os, const set<T,E> &s) {
 	typename set<T,E>::const_iterator i, ie;
 
 	os << "{";
-	for(i=s.begin(), ie=s.end(); i!=ie; i++)
-		os << *i << ", " << std::endl;
+	for(i=s.begin(), ie=s.end(); i!=ie; i++) {
+		os << *i;
+		if(i+1 != ie)
+			os << ", ";
+	}
 	os << "}";
 
 	return os;
 }
 
 template <typename T, typename E, typename P>
-set<T,E> &filter_out(set<T,E> &s, P pred) {
+set<T,E> filter_out(set<T,E> &s, P pred) {
 	set<T,E> result;
 	typename set<T,E>::const_iterator i, ie;
 
@@ -364,7 +437,7 @@ set<T,E> &filter_out(set<T,E> &s, P pred) {
 //IDEA: visto che ogni elemento viene inserito esattamente una volta nell'insieme di arrivo
 //mi basta controllare per ogni elemento che non sia gia' presente nel risultato
 template <typename T, typename E>
-set<T,E> &operator+(set<T,E> &s1, set<T,E> &s2) {
+set<T,E> operator+(set<T,E> &s1, set<T,E> &s2) {
 	set<T,E> result;
 	typename set<T,E>::const_iterator i1, ie1, i2, ie2;
 
