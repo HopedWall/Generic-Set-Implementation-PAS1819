@@ -237,7 +237,12 @@ public:
 
 		// Operatore di accesso random
 		reference operator[](int index) {
-			return n[index];
+			int cont = 0;
+			while(cont != index) {
+				n = n->next;
+				cont++;
+			}
+			return n->value;
 		}
 
 		// Operatore di iterazione post-incremento
@@ -311,43 +316,42 @@ public:
 		}
 
 		// Numero di elementi tra due iteratori
-		difference_type operator-(const const_iterator &other) {
-			const nodo *tmp = n;
-			int cont = 0;
-			bool trovato = false;
+		difference_type operator-(const const_iterator &other) const {
+			if(n == 0 && other.n == 0)
+				return 0;
+			else if (n==0)						//RIVEDERE
+				return -(other-(*this));
+			else {
+				const nodo *tmp = n;
+				int cont = 0;
+				bool trovato = false;
 
-			if(tmp == other.n){
-				std::cout << "Uguale";
-				trovato=true;
+				if(tmp == other.n)
+					trovato=true;
+
+				//Provo ad andare avanti
+				while(tmp!=0 && trovato == false) {
+					tmp = tmp->next;
+					cont--;
+					if(tmp==other.n)
+						trovato = true;
+				}
+
+				if(trovato==false) {
+					cont = 0;
+					tmp = n;
+				}
+
+				//Provo ad andare indietro
+				while(tmp!=0 && trovato == false) {
+					tmp = tmp->prev;
+					cont++;
+					if(tmp==other.n)
+						trovato = true;
+				}
+
+				return cont;
 			}
-
-			//Provo ad andare avanti
-			while(tmp!=0 && trovato == false) {
-				std::cout << "Avanti";
-				std::cout << tmp->value << std::endl;
-				tmp = tmp->next;
-				cont--;
-				if(tmp==other.n)
-					trovato = true;
-			}
-
-			if(trovato==false) {
-				cont = 0;
-				tmp = n;
-			}
-
-			//Provo ad andare indietro
-			while(tmp!=0 && trovato == false) {
-				std::cout << "Indietro";
-				std::cout << tmp->value << std::endl;
-				tmp = tmp->prev;
-				cont++;
-				if(tmp==other.n)
-					trovato = true;
-			}
-
-			//std::cout << "trovato " << trovato << std::endl;
-			return cont;
 		}
 
 		// Uguaglianza
@@ -362,23 +366,38 @@ public:
 
 		// Confronto
 		bool operator>(const const_iterator &other) const {
-			return (n>other.n);
+			int diff = *this-other;
+			if(diff>0)
+				return true;
+			else
+				return false;
 		}
 
 
 		bool operator>=(const const_iterator &other) const {
-			return (n>=other.n);
+			int diff = *this-other;
+			if(diff>=0)
+				return true;
+			else
+				return false;
 		}
 
 		// Confronto
 		bool operator<(const const_iterator &other) const {
-			return (n<other.n);
+			int diff = *this-other;
+			if(diff<0)
+				return true;
+			else
+				return false;
 		}
-
 
 		// Confronto
 		bool operator<=(const const_iterator &other) const {
-			return (n<=other.n);
+			int diff = *this-other;
+			if(diff<=0)
+				return true;
+			else
+				return false;
 		}
 
 	private:

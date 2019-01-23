@@ -1,5 +1,6 @@
 #include "set.h"
 #include <iostream>
+#include <string>
 
 struct equal_int {
 	bool operator()(int a, int b) const {
@@ -7,9 +8,21 @@ struct equal_int {
 	}
 };
 
+struct equal_string {
+	bool operator()(std::string a, std::string b) const {
+		return a == b;
+	}
+};
+
 struct even_p {
 	bool operator()(int a) const {
 		return ((a % 2)==0);
+	}
+};
+
+struct greater_p {
+	bool operator()(std::string a) const {
+		return (a.compare("b")>=0);
 	}
 };
 
@@ -38,6 +51,19 @@ void test_add() {
 	s1.add((int) 0.5f);
 }
 
+void test_add_string() {
+
+	set<std::string,equal_string> s1;
+
+	s1.add("Ciao");
+
+	s1.add("Prova");
+
+	//s1.add("Ciao"); lancia eccezione
+
+	std::cout << s1 << std::endl;
+}
+
 void test_remove() {
 	set<int,equal_int> s1;
 
@@ -52,6 +78,25 @@ void test_remove() {
 	s1.remove(2);
 
 	s1.remove(1);
+
+	//s1.remove(1); lancia eccezione
+
+}
+
+void test_remove_string() {
+	set<std::string,equal_string> s1;
+
+	s1.add("Abc");
+	s1.add("aBc");
+	s1.add("a");
+
+	//s1.remove(5); lancia eccezione
+
+	s1.remove("aBc");
+
+	s1.remove("a");
+
+	s1.remove("Abc");
 
 	//s1.remove(1); lancia eccezione
 
@@ -114,14 +159,16 @@ void test_iteratori() {
 
 	//std::cout<<"i-i=" << i-i << std::endl;
 
-	//std::cout <<"i-ie" << i-ie << std::endl;
+	std::cout <<"i-ie=" << i-ie << std::endl;
 
 	std::cout <<"ie-i= " << ie-i << std::endl;
 
-	//std::cout << "i <= ie" << (i <= ie) << std::endl;
+	std::cout << "i <= ie =" << (i <= ie) << std::endl;
 	//std::cout << "i < ie" << (i < ie) << std::endl;
-	//std::cout << "i >= ie" << (i >= ie) << std::endl;
+	std::cout << "i >= ie =" << (i >= ie) << std::endl;
 	//std::cout << "i > ie" << i > ie << std::endl;
+
+	std::cout << "i[2]=" << i[2] << std::endl;
 
 
 }
@@ -169,6 +216,18 @@ void test_filter_out() {
 	std::cout << "s2 vale: " << s2 << std::endl;
 }
 
+void test_filter_out_string() {
+	set<std::string,equal_string> s1, s2;
+	s1.add("a");
+	s1.add("b");
+	s1.add("c");
+
+	greater_p e;
+	s2 = filter_out(s1,e);
+
+	std::cout << "s2 vale: " << s2 << std::endl;
+}
+
 void test_operator_plus() {
 	set<int,equal_int> s1, s2, s3, s4, s5;
 	s1.add(1);
@@ -193,20 +252,48 @@ void test_operator_plus() {
 
 }
 
+void test_operator_plus_string() {
+	set<std::string,equal_string> s1, s2, s3, s4, s5;
+	s1.add("Ciao");
+	s1.add("Prova1");
+	s1.add("Prova2");
+
+	s2.add("Prova1");
+	s2.add("Ciao2");
+	s2.add("Prova23");
+
+	s3 = s1 + s2;
+
+	std::cout << "s1 + s2 vale: " << s3 << std::endl;
+
+	std::cout << "s2 + s1 vale: " << s2+s1 << std::endl;
+
+	s2 = s2 + s2;
+
+	std::cout << "s2 + s2 vale: " << s2 << std::endl;
+
+	std::cout << "s4 + s2 vale: " << s4+s2 << std::endl;
+
+	std::cout << "s4 + s4 vale: " << s4+s4 << std::endl;
+
+}
+
 int main() {
 	/*
 	test_costruttori();
 	test_add();
 	test_remove();
 	test_operator_quadre();
-	*/
 	test_iteratori();
-	/*
 	test_print();
 	test_filter_out();
 	test_operator_plus();
-	*/
 
+	test_add_string();
+	test_remove_string();
+	test_filter_out_string();
+	test_operator_plus_string();
+	*/
 
 	return 0;
 }
