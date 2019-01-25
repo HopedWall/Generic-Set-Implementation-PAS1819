@@ -1,0 +1,8 @@
+Abruzzo 0-4 26811 25290
+Abruzzo 5-9 29688 27976Emilia-Romagna 0-4 95087 89990
+Emilia-Romagna 5-9 107537 101144
+Lombardia 0-4 221839 210119
+Lombardia 5-9 25159 236751
+Toscana 0-4 74115 6998
+Toscana 5-9 85239 79915
+<END>
