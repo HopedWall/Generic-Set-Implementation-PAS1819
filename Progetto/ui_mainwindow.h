@@ -29,6 +29,8 @@ public:
     QComboBox *comboBoxRegione;
     QTableWidget *tableRegione;
     QLabel *labelRegione;
+    QWidget *widget_chart_maschi;
+    QWidget *widget;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -36,12 +38,12 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(516, 370);
+        MainWindow->resize(1122, 819);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         comboBoxRegione = new QComboBox(centralWidget);
         comboBoxRegione->setObjectName(QString::fromUtf8("comboBoxRegione"));
-        comboBoxRegione->setGeometry(QRect(370, 30, 121, 22));
+        comboBoxRegione->setGeometry(QRect(840, 30, 121, 22));
         comboBoxRegione->setEditable(false);
         tableRegione = new QTableWidget(centralWidget);
         if (tableRegione->columnCount() < 3)
@@ -70,7 +72,7 @@ public:
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
         tableRegione->setItem(7, 0, __qtablewidgetitem3);
         tableRegione->setObjectName(QString::fromUtf8("tableRegione"));
-        tableRegione->setGeometry(QRect(20, 70, 301, 241));
+        tableRegione->setGeometry(QRect(20, 70, 301, 691));
         tableRegione->setLayoutDirection(Qt::LeftToRight);
         tableRegione->setAutoFillBackground(false);
         tableRegione->setFrameShape(QFrame::NoFrame);
@@ -95,10 +97,16 @@ public:
         font2.setBold(false);
         font2.setWeight(50);
         labelRegione->setFont(font2);
+        widget_chart_maschi = new QWidget(centralWidget);
+        widget_chart_maschi->setObjectName(QString::fromUtf8("widget_chart_maschi"));
+        widget_chart_maschi->setGeometry(QRect(390, 80, 711, 351));
+        widget = new QWidget(centralWidget);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(390, 440, 711, 321));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 516, 21));
+        menuBar->setGeometry(QRect(0, 0, 1122, 21));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));

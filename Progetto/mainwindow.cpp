@@ -6,6 +6,9 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QStringList>
+#include <QtCharts>
+
+using namespace QtCharts;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -65,6 +68,7 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
     //ui->->setText(arg1);
     ui->labelRegione->setText(arg1);
     //ui->tableRegione;
+
     QMap<QString,QMap<QString,int>> dati = values[arg1];
     ui->tableRegione->setRowCount(dati.count()+2);          //intestazione + riga totale
     //qDebug() << dati;
@@ -73,6 +77,7 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
     int maschi, femmine, tot_maschi=0, tot_femmine=0;
     //qDebug() << dati.keys();
     QString key;
+
     for(;i!=ie;i++) {
         key = i.key();
         //qDebug() << key;
@@ -147,6 +152,39 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
     ui->tableRegione->setItem(riga,colonna,new QTableWidgetItem(QString::number(tot_femmine)));
     colonna++;
 
+    //Grafico a torta
+    QPieSeries *series_maschi = new QPieSeries(), *series_femmine = new QPieSeries();   //inizializzo le serie per il grafico
 
+    for(i=dati.begin();i!=ie;i++) {
+            key = i.key();
+            //qDebug() << dati[key]["M"];
+            series_maschi->append(key,(dati[key]["M"]));
+            series_femmine->append(key,(dati[key]["F"]));
+    }
+
+    //Imposto le percentuali
+    series_maschi->setLabelsVisible();
+    series_maschi->setLabelsPosition(QPieSlice::LabelInsideHorizontal);
+
+    for(QPieSlice *slice : series_maschi->slices())
+        slice->setLabel(QString(slice->label() + ": %1%").arg(100*slice->percentage(), 0, 'f', 1));
+
+
+    QChart *chart_maschi = new QChart(), *chart_femmine = new QChart();
+    chart_maschi->setTitle("Maschi");
+    chart_maschi->addSeries(series_maschi);
+
+    chart_femmine->setTitle("Femmine");
+    chart_femmine->addSeries(series_femmine);
+
+    //qDebug() << series_maschi->slices();
+
+    QChartView *view_maschi = new QChartView(chart_maschi,ui->widget_chart_maschi);
+    view_maschi->resize(700,500);
+    //view_maschi->show();
+    //view_male->setParent(ui->widget_chart_maschi);
+
+    //QChartView *view_femmine = new QChartView(chart_femmine,ui->chart_donne_layout);
+    //view_femmine->show();
 
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>516</width>
-    <height>370</height>
+    <width>1122</width>
+    <height>819</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <widget class="QComboBox" name="comboBoxRegione">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>840</x>
       <y>30</y>
       <width>121</width>
       <height>22</height>
@@ -36,7 +36,7 @@
       <x>20</x>
       <y>70</y>
       <width>301</width>
-      <height>241</height>
+      <height>691</height>
      </rect>
     </property>
     <property name="layoutDirection">
@@ -167,13 +167,33 @@
      <string/>
     </property>
    </widget>
+   <widget class="QWidget" name="widget_chart_maschi" native="true">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>80</y>
+      <width>711</width>
+      <height>351</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>440</y>
+      <width>711</width>
+      <height>321</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>516</width>
+     <width>1122</width>
      <height>21</height>
     </rect>
    </property>
