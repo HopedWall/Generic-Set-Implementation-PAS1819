@@ -279,7 +279,7 @@ void test_operator_plus_string() {
 }
 
 int main() {
-	/*
+
 	test_costruttori();
 	test_add();
 	test_remove();
@@ -293,7 +293,6 @@ int main() {
 	test_remove_string();
 	test_filter_out_string();
 	test_operator_plus_string();
-	*/
 
 	return 0;
 }
