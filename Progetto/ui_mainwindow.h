@@ -19,6 +19,7 @@
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QWidget>
+#include "Qtcharts"
 
 QT_BEGIN_NAMESPACE
 
@@ -29,8 +30,8 @@ public:
     QComboBox *comboBoxRegione;
     QTableWidget *tableRegione;
     QLabel *labelRegione;
-    QWidget *widget_chart_maschi;
-    QWidget *widget;
+    QChartView *graphicsView_maschi;
+    QChartView *graphicsView_femmine;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -38,12 +39,12 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(1122, 819);
+        MainWindow->resize(1793, 813);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         comboBoxRegione = new QComboBox(centralWidget);
         comboBoxRegione->setObjectName(QString::fromUtf8("comboBoxRegione"));
-        comboBoxRegione->setGeometry(QRect(840, 30, 121, 22));
+        comboBoxRegione->setGeometry(QRect(1600, 30, 121, 22));
         comboBoxRegione->setEditable(false);
         tableRegione = new QTableWidget(centralWidget);
         if (tableRegione->columnCount() < 3)
@@ -97,16 +98,16 @@ public:
         font2.setBold(false);
         font2.setWeight(50);
         labelRegione->setFont(font2);
-        widget_chart_maschi = new QWidget(centralWidget);
-        widget_chart_maschi->setObjectName(QString::fromUtf8("widget_chart_maschi"));
-        widget_chart_maschi->setGeometry(QRect(390, 80, 711, 351));
-        widget = new QWidget(centralWidget);
-        widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(390, 440, 711, 321));
+        graphicsView_maschi = new QChartView(centralWidget);
+        graphicsView_maschi->setObjectName(QString::fromUtf8("graphicsView_maschi"));
+        graphicsView_maschi->setGeometry(QRect(350, 70, 691, 511));
+        graphicsView_femmine = new QChartView(centralWidget);
+        graphicsView_femmine->setObjectName(QString::fromUtf8("graphicsView_femmine"));
+        graphicsView_femmine->setGeometry(QRect(1050, 70, 691, 511));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1122, 21));
+        menuBar->setGeometry(QRect(0, 0, 1793, 21));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QString::fromUtf8("statusBar"));
@@ -119,7 +120,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Visualizzatore dati regioni", nullptr));
         comboBoxRegione->setCurrentText(QString());
 
         const bool __sortingEnabled = tableRegione->isSortingEnabled();

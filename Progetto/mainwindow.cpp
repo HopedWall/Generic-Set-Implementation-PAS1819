@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) :
     while(!in.atEnd()) {
         QString line = in.readLine();
         QStringList fields = line.split(" ");
-        //qDebug() << fields;
+
         if(line!="<END>") {
             if(!cb_values.contains(fields[0]))
                 cb_values.append(fields[0]);
@@ -34,26 +34,11 @@ MainWindow::MainWindow(QWidget *parent) :
             values[fields[0]][fields[1]]["M"] = fields[3].toInt();
         }
     }
-    //qDebug() << cb_values;
-    //qDebug() << values;
     file.close();
 
     ui->setupUi(this);
     ui->comboBoxRegione->addItems(cb_values);
 
-    /*
-    QHash<QString, QHash<QString,QHash<QString,int>>>::const_iterator i = values.begin(), ie = values.end();
-    for(;i!=ie;i++) {           //Regioni
-        //qDebug() << *i;
-        QHash<QString,QHash<QString,int>>::const_iterator i1 = (*i).begin(), ie1 = (*i).end();
-        for(;i1!=ie1;i1++) {    //Categoria
-           QHash<QString,int>::const_iterator i2 = (*i1).begin(), ie2 = (*i1).end();
-           for(;i2!=ie2;i2++)
-               qDebug() << *(i2);
-        }
-
-    }
-    */
 }
 
 MainWindow::~MainWindow()
@@ -65,31 +50,24 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
 {
     int riga = 1;
     int colonna = 0;
-    //ui->->setText(arg1);
-    ui->labelRegione->setText(arg1);
-    //ui->tableRegione;
 
+    ui->labelRegione->setText(arg1);
     QMap<QString,QMap<QString,int>> dati = values[arg1];
     ui->tableRegione->setRowCount(dati.count()+2);          //intestazione + riga totale
-    //qDebug() << dati;
+
     QMap<QString,QMap<QString,int>>::const_iterator i = dati.begin(), ie = dati.end();
     QString eta;
-    int maschi, femmine, tot_maschi=0, tot_femmine=0;
-    //qDebug() << dati.keys();
+    int maschi=0, femmine=0, tot_maschi=0, tot_femmine=0;
     QString key;
 
     for(;i!=ie;i++) {
         key = i.key();
-        //qDebug() << key;
         if(key!="100+" && key!="5-9") {                                   //Problema di ordinamento lessicografico con 5-9,100+
             eta = key;
-            //qDebug() << key;
             maschi = dati[key]["M"];
             tot_maschi += maschi;
-            //qDebug() << dati[key]["M"];
             femmine = dati[key]["F"];
             tot_femmine += femmine;
-            //qDebug() << dati[key]["F"];
 
             ui->tableRegione->setItem(riga,colonna,new QTableWidgetItem(eta));
             colonna++;
@@ -157,18 +135,22 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
 
     for(i=dati.begin();i!=ie;i++) {
             key = i.key();
-            //qDebug() << dati[key]["M"];
             series_maschi->append(key,(dati[key]["M"]));
             series_femmine->append(key,(dati[key]["F"]));
     }
 
     //Imposto le percentuali
     series_maschi->setLabelsVisible();
-    series_maschi->setLabelsPosition(QPieSlice::LabelInsideHorizontal);
+    series_maschi->setLabelsPosition(QPieSlice::LabelInsideNormal);
+
+    series_femmine->setLabelsVisible();
+    series_femmine->setLabelsPosition(QPieSlice::LabelInsideNormal);
 
     for(QPieSlice *slice : series_maschi->slices())
-        slice->setLabel(QString(slice->label() + ": %1%").arg(100*slice->percentage(), 0, 'f', 1));
+        slice->setLabel(QString(slice->label()+": %1%").arg(100*slice->percentage(), 0, 'f', 1));
 
+    for(QPieSlice *slice : series_femmine->slices())
+        slice->setLabel(QString(slice->label()+": %1%").arg(100*slice->percentage(), 0, 'f', 1));
 
     QChart *chart_maschi = new QChart(), *chart_femmine = new QChart();
     chart_maschi->setTitle("Maschi");
@@ -177,14 +159,10 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
     chart_femmine->setTitle("Femmine");
     chart_femmine->addSeries(series_femmine);
 
-    //qDebug() << series_maschi->slices();
+    chart_maschi->legend()->setAlignment(Qt::AlignRight);
+    ui->graphicsView_maschi->setChart(chart_maschi);
 
-    QChartView *view_maschi = new QChartView(chart_maschi,ui->widget_chart_maschi);
-    view_maschi->resize(700,500);
-    //view_maschi->show();
-    //view_male->setParent(ui->widget_chart_maschi);
-
-    //QChartView *view_femmine = new QChartView(chart_femmine,ui->chart_donne_layout);
-    //view_femmine->show();
+    chart_femmine->legend()->setAlignment(Qt::AlignRight);
+    ui->graphicsView_femmine->setChart(chart_femmine);
 
 }
