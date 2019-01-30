@@ -64,7 +64,7 @@
      <bool>false</bool>
     </property>
     <property name="rowCount">
-     <number>8</number>
+     <number>23</number>
     </property>
     <property name="columnCount">
      <number>3</number>
@@ -87,6 +87,21 @@
     <attribute name="verticalHeaderHighlightSections">
      <bool>true</bool>
     </attribute>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
     <row/>
     <row/>
     <row/>
@@ -143,35 +158,38 @@
     </item>
     <item row="7" column="0">
      <property name="text">
-      <string>Totale</string>
+      <string/>
      </property>
     </item>
    </widget>
    <widget class="QLabel" name="labelRegione">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>80</x>
       <y>30</y>
-      <width>161</width>
+      <width>181</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
       <pointsize>16</pointsize>
-      <weight>50</weight>
-      <bold>false</bold>
+      <weight>75</weight>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
      <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QChartView" name="graphicsView_maschi">
     <property name="geometry">
      <rect>
       <x>350</x>
-      <y>70</y>
+      <y>140</y>
       <width>691</width>
       <height>511</height>
      </rect>
@@ -181,7 +199,7 @@
     <property name="geometry">
      <rect>
       <x>1050</x>
-      <y>70</y>
+      <y>140</y>
       <width>691</width>
       <height>511</height>
      </rect>

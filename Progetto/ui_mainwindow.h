@@ -49,8 +49,8 @@ public:
         tableRegione = new QTableWidget(centralWidget);
         if (tableRegione->columnCount() < 3)
             tableRegione->setColumnCount(3);
-        if (tableRegione->rowCount() < 8)
-            tableRegione->setRowCount(8);
+        if (tableRegione->rowCount() < 23)
+            tableRegione->setRowCount(23);
         QFont font;
         font.setBold(true);
         font.setWeight(75);
@@ -82,7 +82,7 @@ public:
         tableRegione->setShowGrid(true);
         tableRegione->setWordWrap(true);
         tableRegione->setCornerButtonEnabled(false);
-        tableRegione->setRowCount(8);
+        tableRegione->setRowCount(23);
         tableRegione->setColumnCount(3);
         tableRegione->horizontalHeader()->setVisible(false);
         tableRegione->horizontalHeader()->setDefaultSectionSize(100);
@@ -92,18 +92,19 @@ public:
         tableRegione->verticalHeader()->setHighlightSections(true);
         labelRegione = new QLabel(centralWidget);
         labelRegione->setObjectName(QString::fromUtf8("labelRegione"));
-        labelRegione->setGeometry(QRect(100, 30, 161, 31));
+        labelRegione->setGeometry(QRect(80, 30, 181, 31));
         QFont font2;
         font2.setPointSize(16);
-        font2.setBold(false);
-        font2.setWeight(50);
+        font2.setBold(true);
+        font2.setWeight(75);
         labelRegione->setFont(font2);
+        labelRegione->setAlignment(Qt::AlignCenter);
         graphicsView_maschi = new QChartView(centralWidget);
         graphicsView_maschi->setObjectName(QString::fromUtf8("graphicsView_maschi"));
-        graphicsView_maschi->setGeometry(QRect(350, 70, 691, 511));
+        graphicsView_maschi->setGeometry(QRect(350, 140, 691, 511));
         graphicsView_femmine = new QChartView(centralWidget);
         graphicsView_femmine->setObjectName(QString::fromUtf8("graphicsView_femmine"));
-        graphicsView_femmine->setGeometry(QRect(1050, 70, 691, 511));
+        graphicsView_femmine->setGeometry(QRect(1050, 140, 691, 511));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
@@ -131,8 +132,6 @@ public:
         ___qtablewidgetitem1->setText(QApplication::translate("MainWindow", "Maschi", nullptr));
         QTableWidgetItem *___qtablewidgetitem2 = tableRegione->item(0, 2);
         ___qtablewidgetitem2->setText(QApplication::translate("MainWindow", "Femmine", nullptr));
-        QTableWidgetItem *___qtablewidgetitem3 = tableRegione->item(7, 0);
-        ___qtablewidgetitem3->setText(QApplication::translate("MainWindow", "Totale", nullptr));
         tableRegione->setSortingEnabled(__sortingEnabled);
 
         labelRegione->setText(QString());
