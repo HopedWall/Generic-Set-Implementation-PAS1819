@@ -109,7 +109,7 @@ public:
 		} else {
 			//Controllo che l'elemento non sia già stato inserito
 			if(contains(value))
-				throw std::invalid_argument("Value is already in set");
+				throw "Value is already in set";
 
 			while(tmp->next != 0)
 				tmp = tmp->next;
@@ -131,12 +131,12 @@ public:
 		nodo *tmp = _head, *p = _head;
 		bool removed = false;
 		if(_head == 0) {	//Lista vuota, riguarda eccezione
-			throw std::invalid_argument("List is empty");
+			throw "List is empty";
 		} else {
 
 			//Controllo che l'elemento sia presente nella lista
 			if(!contains(value))
-				throw std::invalid_argument("Value is not in set");
+				throw "Value is not in set";
 
 			//Controllo che l'elemento da rimuovere non sia il primo
 			if(_equal(_head->value, value)) {
@@ -173,7 +173,7 @@ public:
 	}
 
 	/**
-		Metodo che restituisce l'elemento in posizione index. Se l'indice non è valido ritorna un'eccezione.
+		Metodo che restituisce l'elemento in posizione index. Se l'indice non è valido Lancia un'eccezione.
 		@param index l'indice dell'elemento da restituire
 		@return l'elemento in posizione index
 	*/
@@ -183,7 +183,7 @@ public:
 		unsigned int c = 0;
 
 		if(index < 0)
-			throw std::invalid_argument("Index should be >= 0");
+			throw "Index should be >= 0";
 
 		while(tmp != 0 && c != index){
 			tmp = tmp->next;
@@ -191,7 +191,7 @@ public:
 		}
 
 		if(c != index)
-			throw std::out_of_range("Not enough elements");
+			throw "Not enough elements";
 
 		return tmp->value;
 
@@ -206,7 +206,7 @@ public:
 	set(IT b, IT e) : _head(0), _count(0) {
 		try {
 			for(;b!=e;++b)
-				insert(static_cast<IT>(*b));
+				add(static_cast<T>(*b));
 		} catch (...) {
 			clear();
 			throw;
@@ -245,7 +245,7 @@ public:
 		int index = 0;
 
 		if (!contains(value))
-			throw std::invalid_argument("Value is not in set");
+			throw "Value is not in set";
 
 		while(tmp!=0 && value!=*tmp) {
 			tmp = tmp->next;
@@ -265,7 +265,7 @@ public:
 		//Creo un puntatore a nodo per poter navigare i dati
 		// const in quanto non si possono modificare i dati
 
-		const nodo *n = _head;
+		const nodo *n;
 
 	public:
 		typedef std::random_access_iterator_tag iterator_category;
@@ -277,7 +277,8 @@ public:
 		/**
 			Costruttore di default.
 		*/
-		const_iterator() : n(0) {}
+		const_iterator() : n(0) {
+		}
 
 		/**
 			Costruttore di copia.
@@ -315,7 +316,7 @@ public:
 
 		/**
 			Operatore di accesso random. Permette l'accesso all'elemento in posizione index.
-			Se l'indice non è valido ritorna un'eccezione.
+			Se l'indice non è valido Lancia un'eccezione.
 			@param index l'indice dell'elemento a cui si vuole accedere
 		*/
 		// Operatore di accesso random
@@ -324,17 +325,17 @@ public:
 			const nodo *temp = n;
 
 			if(index < 0)
-				throw std::invalid_argument("Index should be >= 0");
+				throw "Index should be >= 0";
 
 			while(temp!=0 && cont != index) {
-				n = n->next;
+				temp = temp->next;
 				cont++;
 			}
 
 			if (cont != index)
-				throw std::out_of_range("Not enough elements");
+				throw "Not enough elements";
 
-			return n->value;
+			return temp->value;
 		}
 
 		/**
@@ -372,7 +373,7 @@ public:
 		}
 
 		/**
-			Spostamento in avanti di offset posizioni. Ritorna un'eccezione se lo spostamento non è possibile.
+			Spostamento in avanti di offset posizioni. Lancia un'eccezione se lo spostamento non è possibile.
 			@param offset il numero di posizioni di cui spostarsi
 		*/
 		const_iterator operator+(int offset) const {
@@ -387,7 +388,7 @@ public:
 		}
 
 		/**
-			Spostamento all'indietro di offset posizioni. Ritorna un'eccezione se lo spostamento non è possibile.
+			Spostamento all'indietro di offset posizioni. Lancia un'eccezione se lo spostamento non è possibile.
 			@param offset il numero di posizioni di cui spostarsi
 		*/
 		const_iterator operator-(int offset) const {
@@ -403,7 +404,7 @@ public:
 		}
 
 		/**
-			Spostamento in avanti di offset posizioni. Ritorna un'eccezione se lo spostamento non è possibile.
+			Spostamento in avanti di offset posizioni. Lancia un'eccezione se lo spostamento non è possibile.
 			@param offset il numero di posizioni di cui spostarsi
 		*/
 		const_iterator& operator+=(int offset) {
@@ -416,7 +417,7 @@ public:
 		}
 
 		/**
-			Spostamento all'indietro di offset posizioni. Ritorna un'eccezione se lo spostamento non è possibile.
+			Spostamento all'indietro di offset posizioni. Lancia un'eccezione se lo spostamento non è possibile.
 			@param offset il numero di posizioni di cui spostarsi
 		*/
 		const_iterator& operator-=(int offset) {
@@ -619,13 +620,13 @@ set<T,E> operator+(set<T,E> &s1, set<T,E> &s2) {
 
 	for(i1=s1.begin(), ie1=s1.end(); i1!=ie1; i1++)
 		if(s2.contains(*i1))
-			throw std::invalid_argument("Element is present in both sets");
+			throw "Element is present in both sets";
 		else
 			result.add(*i1);
 
 	for(i2=s2.begin(), ie2=s2.end(); i2!=ie2; i2++)
 		if(s1.contains(*i2))
-			throw std::invalid_argument("Element is present in both sets");
+			throw "Element is present in both sets";
 		else
 			result.add(*i2);
 
