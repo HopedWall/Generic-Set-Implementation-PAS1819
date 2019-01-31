@@ -417,8 +417,28 @@ void test_iteratori_vari() {
 	std::cout << "i: " << *i << "i++: " << *(i++) << std::endl;
 	std::cout << "i2: " << *i2 << "++i: " << *(++i2) << std::endl;
 
-	//operator-
+}
 
+void test_operator_quadre_voce() {
+	set<voce,equal_voce> r1;
+
+	voce b("Nome","Cognome","12345678910112345");
+	voce c("Nome1","Cognome1","42424242");
+	voce d("Nome2","Cognome2","129384701");
+	voce e("Nome3","Cognome3","2039485");
+
+	r1.add(b);
+	r1.add(c);
+	r1.add(d);
+	r1.add(e);
+
+	std::cout << "r1 vale: " << std::endl;
+	std::cout << r1 << std::endl;
+	std::cout << r1[0] << std::endl;
+	std::cout << r1[1] << std::endl;
+	std::cout << r1[2] << std::endl;
+	std::cout << r1[3] << std::endl;
+	//std::cout << r1[4] << std::endl;
 }
 
 int main() {
@@ -448,9 +468,11 @@ int main() {
 
 	test_add_voce();
 	test_remove_voce();
+	test_operator_quadre_voce();
 	test_filter_and_plus_voce();
 	test_costruttore_iteratori_voce();
 	test_iteratori_vari();
+	test_operator_quadre_voce();
 
 	return 0;
 }

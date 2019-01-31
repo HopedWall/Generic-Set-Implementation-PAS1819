@@ -13,7 +13,7 @@
 		elementi ripetuti (si utilizza un funtore Eql per verificare questa proprietà).
 */
 
-template <typename T, typename Eql>	//Eql necessario in quanto non tutte le classi potrebbero avere operator ==
+template <typename T, typename Eql>
 class set {
 private:
 	/**
@@ -180,7 +180,7 @@ public:
 	//Controlla SOLA LETTURA
 	T operator[](const int index) const {
 		nodo *tmp = _head;
-		unsigned int c = 0;
+		int c = 0;
 
 		if(index < 0)
 			throw "Index should be >= 0";
@@ -190,7 +190,7 @@ public:
 			c++;
 		}
 
-		if(c != index)
+		if(c != index || tmp == 0)
 			throw "Not enough elements";
 
 		return tmp->value;
@@ -332,7 +332,7 @@ public:
 				cont++;
 			}
 
-			if (cont != index)
+			if (cont != index || temp == 0)
 				throw "Not enough elements";
 
 			return temp->value;
@@ -438,7 +438,7 @@ public:
 		difference_type operator-(const const_iterator &other) const {
 			if(n == 0 && other.n == 0)
 				return 0;
-			else if (n==0)						//RIVEDERE
+			else if (n==0)
 				return -(other-(*this));
 			else {
 				const nodo *tmp = n;
