@@ -64,7 +64,6 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
     QString eta;
     int maschi=0, femmine=0, tot_maschi=0, tot_femmine=0;
     QString key;
-    QTableWidgetItem *twi_eta, *twi_maschi, *twi_femmine;
 
     for(;i!=ie;i++) {
         key = i.key();
@@ -144,7 +143,7 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
 
     for(i=dati.begin();i!=ie;i++) {
             key = i.key();
-            if(key=="5-9" && dati.keys().contains("5-9") || key=="100+" && dati.keys().contains("100+")) {
+            if((key=="5-9" && dati.keys().contains("5-9")) || (key=="100+" && dati.keys().contains("100+"))) {
                 i++;
                 key = i.key();
             }
