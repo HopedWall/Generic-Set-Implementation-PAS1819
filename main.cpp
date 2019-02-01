@@ -319,34 +319,27 @@ void test_operator_plus() {
 
 	std::cout << "---test_operator_plus---" << std::endl;
 
-	set<int,equal_int> s1, s2, s3, s4, s5;
+	set<int,equal_int> s1, s2, s3;
 	s1.add(1);
 	s1.add(2);
 	s1.add(3);
 
 	s2.add(4);
-	//s2.add(3);
+	s2.add(3);
 	s2.add(5);
 
-	//s3 = s1 + s2;
+	try {
+		s3 = s1 + s2;
+		//std::cout << "s1 + s2 vale: " << s3 << std::endl;
+		assert(s3[0] == 1);
+		assert(s3[1] == 2);
+		assert(s1[2] == 3);
+		assert(s1[4] == 4);
+		assert(s1[5] == 5);
 
-	/*
-	//std::cout << "s1 + s2 vale: " << s3 << std::endl;
-	assert(s3[0] == 1);
-	assert(s3[1] == 2);
-	assert(s1[2] == 3);
-	assert(s1[4] == 4);
-	assert(s1[5] == 5);
-	*/
-
-	//s2 = s2 + s2;
-
-	//std::cout << "s2 + s2 vale: " << s2 << std::endl;
-
-	//std::cout << "s4 + s2 vale: " << s4+s2 << std::endl;
-
-	//std::cout << "s4 + s4 vale: " << s4+s4 << std::endl;
-
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
 	std::cout << "ok" << std::endl;
 }
 
@@ -363,19 +356,21 @@ void test_operator_plus_string() {
 	s2.add("Ciao2");
 	s2.add("Prova23");
 
-	s3 = s1 + s2;
+	try {
+		s3 = s1 + s2;
 
-	std::cout << "s1 + s2 vale: " << s3 << std::endl;
+		std::cout << "s2 + s1 vale: " << s2+s1 << std::endl;
 
-	std::cout << "s2 + s1 vale: " << s2+s1 << std::endl;
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
 
-	s2 = s2 + s2;
-
-	std::cout << "s2 + s2 vale: " << s2 << std::endl;
-
-	std::cout << "s4 + s2 vale: " << s4+s2 << std::endl;
-
-	std::cout << "s4 + s4 vale: " << s4+s4 << std::endl;
+	try {
+		s2 = s2 + s2;
+		std::cout << "s2 + s2 vale: " << s2+s2 << std::endl;
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
 
 	std::cout << "ok" << std::endl;
 }
@@ -584,8 +579,14 @@ void test_eccezioni_add() {
 	set<int,equal_int> s1;
 
 	s1.add(1);
+	s1.add(2);
 	try {
 		s1.add(1);
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+	try {
+		s1.add(2);
 	} catch (set_exception &e) {
 		std::cout << e.what() << std::endl;
 	}
@@ -631,7 +632,6 @@ void test_eccezioni_operator() {
 
 int main() {
 
-/*
 	test_costruttori();
 	test_add();
 	test_remove();
@@ -644,7 +644,7 @@ int main() {
 	test_add_string();
 	test_remove_string();
 	test_filter_out_string();
-	//test_operator_plus_string();
+	test_operator_plus_string();
 
 	test_add_voce();
 	test_remove_voce();
@@ -654,9 +654,8 @@ int main() {
 	test_iteratori_vari();
 	test_operator_quadre_voce();
 
-*/
-	//test_eccezioni_add();
-	//test_eccezioni_delete();
+	test_eccezioni_add();
+	test_eccezioni_delete();
 	test_eccezioni_operator();
 
 	return 0;

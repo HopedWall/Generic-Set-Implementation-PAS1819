@@ -109,8 +109,10 @@ public:
 			_count = 1;
 		} else {
 			//Controllo che l'elemento non sia già stato inserito
-			if(contains(value))
+			if(contains(value)) {
+				delete n;	//Altrimenti leak su n
 				throw set_exception("Value is already in set");
+			}
 
 			while(tmp->next != 0)
 				tmp = tmp->next;
@@ -241,7 +243,7 @@ public:
 		@return la posizione dell'elemento
 	*/
 	//Forse inutile
-	int get_position(T value) const {
+	int get_position(const T value) const {
 		nodo *tmp = _head;
 		int index = 0;
 
