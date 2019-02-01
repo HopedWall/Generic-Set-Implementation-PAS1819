@@ -630,6 +630,75 @@ void test_eccezioni_operator() {
 
 }
 
+void test_eccezioni_add_voce() {
+	std::cout << "---test_eccezioni_add_voce---" << std::endl;
+	set<voce,equal_voce> rubrica_voci;
+
+	voce b("Nome","Cognome","123456789");
+	voce c("Nome1","Cognome1","42424242");
+	rubrica_voci.add(b);
+	rubrica_voci.add(c);
+
+	try {
+		rubrica_voci.add(b);
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	try {
+		rubrica_voci.add(c);
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	std::cout << "ok" << std::endl;
+}
+
+void test_eccezioni_delete_voce() {
+	std::cout << "---test_eccezioni_delete_voce---" << std::endl;
+	set<voce,equal_voce> rubrica_voci;
+
+	voce b("Nome","Cognome","123456789");
+	voce c("Nome1","Cognome1","42424242");
+	rubrica_voci.add(b);
+	rubrica_voci.add(c);
+
+	rubrica_voci.remove(b);
+	try {
+		rubrica_voci.remove(b);
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	rubrica_voci.remove(c);
+	try {
+		rubrica_voci.remove(c);
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	std::cout << "ok" << std::endl;
+}
+
+void test_eccezioni_operator_voce() {
+	std::cout << "---test_eccezioni_operator_voce---" << std::endl;
+	set<voce,equal_voce> rv1, rv2, rv3;
+
+	voce b("Nome","Cognome","123456789");
+	voce c("Nome1","Cognome1","42424242");
+	rv1.add(b);
+	rv1.add(c);
+	rv2.add(b);
+
+	try {
+		rv3 = rv1+rv2;
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	std::cout << "ok" << std::endl;
+}
+
 int main() {
 
 	test_costruttori();
@@ -639,7 +708,7 @@ int main() {
 	test_iteratori();
 	test_print();
 	test_filter_out();
-	//test_operator_plus();
+	test_operator_plus();
 
 	test_add_string();
 	test_remove_string();
@@ -658,5 +727,8 @@ int main() {
 	test_eccezioni_delete();
 	test_eccezioni_operator();
 
+	test_eccezioni_add_voce();
+	test_eccezioni_delete_voce();
+	test_eccezioni_operator_voce();
 	return 0;
 }

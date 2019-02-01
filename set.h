@@ -180,8 +180,7 @@ public:
 		@param index l'indice dell'elemento da restituire
 		@return l'elemento in posizione index
 	*/
-	//Controlla SOLA LETTURA
-	const T operator[](const int index) const {
+	const T& operator[](const int index) const {
 		nodo *tmp = _head;
 		int c = 0;
 
