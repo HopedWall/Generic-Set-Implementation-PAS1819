@@ -14,9 +14,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    QFile file("./dataset/data.txt");
+    QString filename = "./dataset/data.txt";
+    QFile file(filename);
     if(!file.open(QIODevice::ReadOnly)) {
         QMessageBox::information(nullptr, "error", file.errorString());
+        filename = QFileDialog::getOpenFileName(this,tr("Select dataset"));
+        file.close();                  //chiudo il file precedente per usare setFileName()
+        file.setFileName(filename);
+        file.open(QIODevice::ReadOnly);
     }
     QTextStream in(&file);
 
@@ -59,6 +64,7 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
     QString eta;
     int maschi=0, femmine=0, tot_maschi=0, tot_femmine=0;
     QString key;
+    QTableWidgetItem *twi_eta, *twi_maschi, *twi_femmine;
 
     for(;i!=ie;i++) {
         key = i.key();
@@ -130,13 +136,28 @@ void MainWindow::on_comboBoxRegione_currentIndexChanged(const QString &arg1)
     ui->tableRegione->setItem(riga,colonna,new QTableWidgetItem(QString::number(tot_femmine)));
     colonna++;
 
+    //Disabilita la modifica delle celle della tabella da parte dell'utente
+    ui->tableRegione->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
     //Grafico a torta
     QPieSeries *series_maschi = new QPieSeries(), *series_femmine = new QPieSeries();   //inizializzo le serie per il grafico
 
     for(i=dati.begin();i!=ie;i++) {
             key = i.key();
+            if(key=="5-9" && dati.keys().contains("5-9") || key=="100+" && dati.keys().contains("100+")) {
+                i++;
+                key = i.key();
+            }
             series_maschi->append(key,(dati[key]["M"]));
             series_femmine->append(key,(dati[key]["F"]));
+            if(key=="0-4" && dati.keys().contains("5-9")) {
+                series_maschi->append("5-9",(dati["5-9"]["M"]));
+                series_femmine->append("5-9",(dati["5-9"]["F"]));
+            }
+            if(key=="95-99" && dati.keys().contains("100+")) {
+                series_maschi->append("100+",(dati["100+"]["M"]));
+                series_femmine->append("100+",(dati["100+"]["F"]));
+            }
     }
 
     //Imposto le percentuali
