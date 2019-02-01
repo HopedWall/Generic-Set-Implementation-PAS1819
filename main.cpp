@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "voce.h"
+#include <cassert>
 
 struct equal_int {
 	bool operator()(int a, int b) const {
@@ -41,15 +42,21 @@ struct longer_than_10 {
 
 void test_costruttori() {
 
+	std::cout << "---test_costruttori---" << std::endl;
+
 	set<int,equal_int> s1;
 
 	set<int,equal_int> s2(s1);
 
 	set<int,equal_int> s3 = s1;
 
+	std::cout << "ok" << std::endl;
+
 }
 
 void test_add() {
+
+	std::cout << "---test_add---" << std::endl;
 
 	set<int,equal_int> s1;
 
@@ -57,14 +64,28 @@ void test_add() {
 
 	s1.add(2);
 
-	//s1.add(1); lancia eccezione
+	/*
+	try {
+		s1.add(1); //lancia eccezione
+	} catch(...) {
+		s1.clear();
+	}
+	*/
 
-	//s1.add("Ciao"); invalid conversion
+	//s1.add("Ciao"); invalid conversion (compilazione)
 
-	s1.add((int) 0.5f);
+	s1.add((int)0.5f);
+
+	assert(s1[0] == 1);
+	assert(s1[1] == 2);
+	assert(s1[2] == 0);
+
+	std::cout << "OK";
 }
 
 void test_add_string() {
+
+	std::cout << "---test_add_string---" << std::endl;
 
 	set<std::string,equal_string> s1;
 
@@ -74,10 +95,18 @@ void test_add_string() {
 
 	//s1.add("Ciao"); lancia eccezione
 
-	std::cout << s1 << std::endl;
+	//std::cout << s1 << std::endl;
+
+	assert(s1[0] == "Ciao");
+	assert(s1[1] == "Prova");
+
+	std::cout << "ok" << std::endl;
 }
 
 void test_remove() {
+
+	std::cout << "---test_remove---" << std::endl;
+
 	set<int,equal_int> s1;
 
 	s1.add(1);
@@ -88,15 +117,24 @@ void test_remove() {
 
 	s1.remove(3);
 
+	assert(s1[0] == 1);
+	assert(s1[1] == 2);
+
 	s1.remove(2);
+
+	assert(s1[0] == 1);
 
 	s1.remove(1);
 
 	//s1.remove(1); lancia eccezione
 
+	std::cout << "ok" << std::endl;
 }
 
 void test_remove_string() {
+
+	std::cout << "---test_remove_string---" << std::endl;
+
 	set<std::string,equal_string> s1;
 
 	s1.add("Abc");
@@ -107,33 +145,51 @@ void test_remove_string() {
 
 	s1.remove("aBc");
 
+	assert(s1[0] == "Abc");
+	assert(s1[1] == "a");
+
 	s1.remove("a");
+
+	assert(s1[0] == "Abc");
 
 	s1.remove("Abc");
 
 	//s1.remove(1); lancia eccezione
 
+	std::cout << "ok" << std::endl;
 }
 
 void test_operator_quadre() {
+
+	std::cout << "---test_operator_quadre---" << std::endl;
+
 	set<int,equal_int> s1;
 
 	s1.add(1);
 	s1.add(2);
 	s1.add(3);
 
-	std::cout << s1[0] << " " << s1[1] << " " << s1[2] << std::endl;
+	assert(s1[0] == 1);
+	assert(s1[1] == 2);
+	assert(s1[2] == 3);
 
-	int a = 0;
+	//std::cout << s1[0] << " " << s1[1] << " " << s1[2] << std::endl;
+
+	//int a = 0;
 
 	//a = s1[5]; lancia eccezione
 
 	//a = s1[-1]; lancia eccezione
 
 	//s1[2] = 3;
+
+	std::cout << "ok" << std::endl;
 }
 
 void test_iteratori() {
+
+	std::cout << "---test_iteratori---" << std::endl;
+
 	set<int,equal_int> s1;
 
 	s1.add(1);
@@ -183,10 +239,12 @@ void test_iteratori() {
 
 	std::cout << "i[2]=" << i[2] << std::endl;
 
-
+	std::cout << "ok" << std::endl;
 }
 
 void test_print() {
+
+	std::cout << "---test_print---" << std::endl;
 
 	set<int,equal_int> s1;
 
@@ -215,9 +273,14 @@ void test_print() {
 	s1.remove(1);
 
 	std::cout << s1 << std::endl;
+
+	std::cout << "ok" << std::endl;
 }
 
 void test_filter_out() {
+
+	std::cout << "---test_filter_out---" << std::endl;
+
 	set<int,equal_int> s1, s2;
 	s1.add(1);
 	s1.add(2);
@@ -226,10 +289,17 @@ void test_filter_out() {
 	even_p e;
 	s2 = filter_out(s1,e);
 
-	std::cout << "s2 vale: " << s2 << std::endl;
+	//std::cout << "s2 vale: " << s2 << std::endl;
+	assert(s2[0] == 1);
+	assert(s2[1] == 3);
+
+	std::cout << "ok" << std::endl;
 }
 
 void test_filter_out_string() {
+
+	std::cout << "---test_filter_out_string---" << std::endl;
+
 	set<std::string,equal_string> s1, s2;
 	s1.add("a");
 	s1.add("b");
@@ -238,34 +308,52 @@ void test_filter_out_string() {
 	greater_p e;
 	s2 = filter_out(s1,e);
 
-	std::cout << "s2 vale: " << s2 << std::endl;
+	assert(s1[0] == "a");
+
+	//std::cout << "s2 vale: " << s2 << std::endl;
+
+	std::cout << "ok" << std::endl;
 }
 
 void test_operator_plus() {
+
+	std::cout << "---test_operator_plus---" << std::endl;
+
 	set<int,equal_int> s1, s2, s3, s4, s5;
 	s1.add(1);
 	s1.add(2);
 	s1.add(3);
 
 	s2.add(4);
-	s2.add(3);
+	//s2.add(3);
 	s2.add(5);
 
-	s3 = s1 + s2;
+	//s3 = s1 + s2;
 
-	std::cout << "s1 + s2 vale: " << s3 << std::endl;
+	/*
+	//std::cout << "s1 + s2 vale: " << s3 << std::endl;
+	assert(s3[0] == 1);
+	assert(s3[1] == 2);
+	assert(s1[2] == 3);
+	assert(s1[4] == 4);
+	assert(s1[5] == 5);
+	*/
 
-	s2 = s2 + s2;
+	//s2 = s2 + s2;
 
-	std::cout << "s2 + s2 vale: " << s2 << std::endl;
+	//std::cout << "s2 + s2 vale: " << s2 << std::endl;
 
-	std::cout << "s4 + s2 vale: " << s4+s2 << std::endl;
+	//std::cout << "s4 + s2 vale: " << s4+s2 << std::endl;
 
-	std::cout << "s4 + s4 vale: " << s4+s4 << std::endl;
+	//std::cout << "s4 + s4 vale: " << s4+s4 << std::endl;
 
+	std::cout << "ok" << std::endl;
 }
 
 void test_operator_plus_string() {
+
+	std::cout << "---test_operator_plus_string---" << std::endl;
+
 	set<std::string,equal_string> s1, s2, s3, s4, s5;
 	s1.add("Ciao");
 	s1.add("Prova1");
@@ -289,10 +377,16 @@ void test_operator_plus_string() {
 
 	std::cout << "s4 + s4 vale: " << s4+s4 << std::endl;
 
+	std::cout << "ok" << std::endl;
 }
 
 void test_add_voce() {
+
+	std::cout << "---test_add_voce---" << std::endl;
+
 	set<voce,equal_voce> rubrica_voci;
+	equal_voce ev;
+
 	voce a;
 	voce b("Nome","Cognome","123456789");
 	voce c("Nome1","Cognome1","42424242");
@@ -301,10 +395,20 @@ void test_add_voce() {
 	rubrica_voci.add(c);
 
 	std::cout << rubrica_voci << std::endl;
+
+	assert(ev(rubrica_voci[0],a));
+	assert(ev(rubrica_voci[1],b));
+	assert(ev(rubrica_voci[2],c));
+
+	std::cout << "ok" << std::endl;
 }
 
 void test_remove_voce() {
+
+	std::cout << "---test_remove_voce---" << std::endl;
+
 	set<voce,equal_voce> rubrica_voci;
+	equal_voce ev;
 
 	voce a;
 	voce b("Nome","Cognome","123456789");
@@ -320,9 +424,11 @@ void test_remove_voce() {
 	std::cout << rubrica_voci << std::endl;
 
 	rubrica_voci.remove(a); //eliminazione in testa
-	std::cout << rubrica_voci << std::endl;
+	assert(ev(rubrica_voci[0],b));
+	//std::cout << rubrica_voci << std::endl;
 
 	rubrica_voci.remove(d); //eliminazione in coda
+	assert(ev(rubrica_voci[1],c));
 	std::cout << rubrica_voci << std::endl;
 
 	//rubrica_voci.remove(a); //eliminazione in testa
@@ -340,10 +446,16 @@ void test_remove_voce() {
 		std::cout << *i;
 	std::cout << std::endl;
 
+	std::cout << "ok" << std::endl;
+
 }
 
 void test_filter_and_plus_voce() {
+
+	std::cout << "---test_filter_and_plus_voce---" << std::endl;
+
 	set<voce,equal_voce> r1, r2, r3, r4;
+	equal_voce ev;
 
 	voce b("Nome","Cognome","12345678910112345");
 	voce c("Nome1","Cognome1","42424242");
@@ -355,17 +467,26 @@ void test_filter_and_plus_voce() {
 	r2.add(d);
 	r2.add(e);
 
-	std::cout << "r1" << r1 << std::endl;
+	//std::cout << "r1" << r1 << std::endl;
 	longer_than_10 ltt;
 	r3 = filter_out(r1,ltt);
-	std::cout << "r3" << r3 << std::endl;
+	//std::cout << "r3" << r3 << std::endl;
+	assert(ev(r3[0],r1[1]));
 
 	r4 = r2 + r3;
-	std::cout << r2 << " " << r3 << std::endl;
-	std::cout << r4 << std::endl;
+	//std::cout << r2 << " " << r3 << std::endl;
+	//std::cout << r4 << std::endl;
+	assert(ev(r4[0],r2[0]));
+	assert(ev(r4[1],r2[1]));
+	assert(ev(r4[2],r3[0]));
+
+	std::cout << "ok" << std::endl;
 }
 
 void test_costruttore_iteratori_voce() {
+
+	std::cout << "---test_costruttore_iteratori_voce---" << std::endl;
+
 	set<voce,equal_voce> r1;
 
 	voce b("Nome","Cognome","12345678910112345");
@@ -392,9 +513,13 @@ void test_costruttore_iteratori_voce() {
 	set<voce,equal_voce> r2(i1,ie1);
 	std::cout << r2 << std::endl;
 
+	std::cout << "ok" << std::endl;
 }
 
 void test_iteratori_vari() {
+
+	std::cout << "---test_iteratori_vari---" << std::endl;
+
 	set<voce,equal_voce> r1;
 
 	voce b("Nome","Cognome","12345678910112345");
@@ -417,10 +542,15 @@ void test_iteratori_vari() {
 	std::cout << "i: " << *i << "i++: " << *(i++) << std::endl;
 	std::cout << "i2: " << *i2 << "++i: " << *(++i2) << std::endl;
 
+	std::cout << "ok" << std::endl;
 }
 
 void test_operator_quadre_voce() {
+
+	std::cout << "---test_operator_quadre_voce---" << std::endl;
+
 	set<voce,equal_voce> r1;
+	equal_voce ev;
 
 	voce b("Nome","Cognome","12345678910112345");
 	voce c("Nome1","Cognome1","42424242");
@@ -432,17 +562,76 @@ void test_operator_quadre_voce() {
 	r1.add(d);
 	r1.add(e);
 
-	std::cout << "r1 vale: " << std::endl;
-	std::cout << r1 << std::endl;
-	std::cout << r1[0] << std::endl;
-	std::cout << r1[1] << std::endl;
-	std::cout << r1[2] << std::endl;
-	std::cout << r1[3] << std::endl;
+	assert(ev(r1[0],b));
+	assert(ev(r1[1],c));
+	assert(ev(r1[2],d));
+	assert(ev(r1[3],e));
+
+	//std::cout << "r1 vale: " << std::endl;
+	//std::cout << r1 << std::endl;
+	//std::cout << r1[0] << std::endl;
+	//std::cout << r1[1] << std::endl;
+	//std::cout << r1[2] << std::endl;
+	//std::cout << r1[3] << std::endl;
 	//std::cout << r1[4] << std::endl;
+
+	std::cout << "ok" << std::endl;
+}
+
+void test_eccezioni_add() {
+	std::cout << "---test_eccezioni_add---" << std::endl;
+
+	set<int,equal_int> s1;
+
+	s1.add(1);
+	try {
+		s1.add(1);
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	std::cout << "ok" << std::endl;
+
+}
+
+void test_eccezioni_delete() {
+	std::cout << "---test_eccezioni_delete---" << std::endl;
+
+	set<int,equal_int> s1;
+
+	s1.add(1);
+	s1.add(2);
+	try {
+		s1.remove(3);
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	std::cout << "ok" << std::endl;
+
+}
+
+void test_eccezioni_operator() {
+	std::cout << "---test_eccezioni_operator---" << std::endl;
+
+	set<int,equal_int> s1, s2, s3;
+
+	s1.add(1);
+	s1.add(2);
+	s2.add(1);
+	try {
+		s3 = s1 + s2;
+	} catch (set_exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	std::cout << "ok" << std::endl;
+
 }
 
 int main() {
 
+/*
 	test_costruttori();
 	test_add();
 	test_remove();
@@ -450,21 +639,12 @@ int main() {
 	test_iteratori();
 	test_print();
 	test_filter_out();
-
-	try {
-		test_operator_plus();
-	} catch (...) {
-	}
-
+	//test_operator_plus();
 
 	test_add_string();
 	test_remove_string();
 	test_filter_out_string();
-
-	try{
-		test_operator_plus_string();
-	} catch (...) {
-	}
+	//test_operator_plus_string();
 
 	test_add_voce();
 	test_remove_voce();
@@ -473,6 +653,11 @@ int main() {
 	test_costruttore_iteratori_voce();
 	test_iteratori_vari();
 	test_operator_quadre_voce();
+
+*/
+	//test_eccezioni_add();
+	//test_eccezioni_delete();
+	test_eccezioni_operator();
 
 	return 0;
 }

@@ -5,6 +5,7 @@
 #include <algorithm> // std::swap
 #include <iterator>  // std::forward_iterator_tag
 #include <cstddef>   // std::ptrdiff_t
+#include "setexception.h" //set_exception
 
 /**
 		Classe che definisce un set, ovvero un insieme (dal punto di vista matematico).
@@ -22,16 +23,16 @@ private:
 		Il nodo iniziale ha prev = 0, e quello finale ha next = 0.
 	*/
 	struct nodo {
-		T value;
-		nodo *prev, *next;
+		T value;				///< Il valore contenuto nel modo
+		nodo *prev, *next;		///< Puntatori al nodo precedente e successivo
 
 		nodo() : next(0), prev(0) {}
 		nodo(const T &v, nodo *p = 0, nodo *n = 0) : value(v), prev(p), next(n) {}
 	};
 
-	nodo *_head;
-	unsigned int _count;
-	Eql _equal;
+	nodo *_head;				///< Puntatore alla testa
+	unsigned int _count;		///< Numero di elementi del set
+	Eql _equal;					///< Funtore di uguaglianza
 
 public:
 	/**
@@ -109,7 +110,7 @@ public:
 		} else {
 			//Controllo che l'elemento non sia già stato inserito
 			if(contains(value))
-				throw "Value is already in set";
+				throw set_exception("Value is already in set");
 
 			while(tmp->next != 0)
 				tmp = tmp->next;
@@ -131,12 +132,12 @@ public:
 		nodo *tmp = _head, *p = _head;
 		bool removed = false;
 		if(_head == 0) {	//Lista vuota, riguarda eccezione
-			throw "List is empty";
+			throw set_exception("List is empty");
 		} else {
 
 			//Controllo che l'elemento sia presente nella lista
 			if(!contains(value))
-				throw "Value is not in set";
+				throw set_exception("Value is not in set");
 
 			//Controllo che l'elemento da rimuovere non sia il primo
 			if(_equal(_head->value, value)) {
@@ -178,12 +179,12 @@ public:
 		@return l'elemento in posizione index
 	*/
 	//Controlla SOLA LETTURA
-	T operator[](const int index) const {
+	const T operator[](const int index) const {
 		nodo *tmp = _head;
 		int c = 0;
 
 		if(index < 0)
-			throw "Index should be >= 0";
+			throw new set_exception("Index should be >= 0");
 
 		while(tmp != 0 && c != index){
 			tmp = tmp->next;
@@ -191,7 +192,7 @@ public:
 		}
 
 		if(c != index || tmp == 0)
-			throw "Not enough elements";
+			throw new set_exception("Not enough elements");
 
 		return tmp->value;
 
@@ -245,7 +246,7 @@ public:
 		int index = 0;
 
 		if (!contains(value))
-			throw "Value is not in set";
+			throw set_exception("Value is not in set");
 
 		while(tmp!=0 && value!=*tmp) {
 			tmp = tmp->next;
@@ -262,10 +263,7 @@ public:
 	*/
 	class const_iterator {
 
-		//Creo un puntatore a nodo per poter navigare i dati
-		// const in quanto non si possono modificare i dati
-
-		const nodo *n;
+		const nodo *n;	///< Nodo per navigare il set, const in quanto non si possono modificare i dati
 
 	public:
 		typedef std::random_access_iterator_tag iterator_category;
@@ -325,7 +323,7 @@ public:
 			const nodo *temp = n;
 
 			if(index < 0)
-				throw "Index should be >= 0";
+				throw set_exception("Index should be >= 0");
 
 			while(temp!=0 && cont != index) {
 				temp = temp->next;
@@ -333,7 +331,7 @@ public:
 			}
 
 			if (cont != index || temp == 0)
-				throw "Not enough elements";
+				throw set_exception("Not enough elements");
 
 			return temp->value;
 		}
@@ -620,13 +618,13 @@ set<T,E> operator+(set<T,E> &s1, set<T,E> &s2) {
 
 	for(i1=s1.begin(), ie1=s1.end(); i1!=ie1; i1++)
 		if(s2.contains(*i1))
-			throw "Element is present in both sets";
+			throw set_exception("Element is present in both sets");
 		else
 			result.add(*i1);
 
 	for(i2=s2.begin(), ie2=s2.end(); i2!=ie2; i2++)
 		if(s1.contains(*i2))
-			throw "Element is present in both sets";
+			throw set_exception("Element is present in both sets");
 		else
 			result.add(*i2);
 
