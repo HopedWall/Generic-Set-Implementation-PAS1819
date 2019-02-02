@@ -80,7 +80,7 @@ void test_add() {
 	assert(s1[1] == 2);
 	assert(s1[2] == 0);
 
-	std::cout << "OK";
+	std::cout << "ok" << std::endl;
 }
 
 void test_add_string() {

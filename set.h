@@ -84,7 +84,7 @@ public:
 		@param val il valore da inserire
 		@return true se il valore è contenuto in this, false altrimenti
 	*/
-	bool contains(const T val) const {
+	bool contains(const T &val) const {
 		nodo *tmp = _head;
 		bool is_in = false;
 
@@ -237,29 +237,6 @@ public:
 	}
 
 	/**
-		Metodo che ritorna la posizione di un elemento del set.
-		@param value il valore di cui si vuole sapere la posizione
-		@return la posizione dell'elemento
-	*/
-	//Forse inutile
-	int get_position(const T value) const {
-		nodo *tmp = _head;
-		int index = 0;
-
-		if (!contains(value))
-			throw set_exception("Value is not in set");
-
-		while(tmp!=0 && value!=*tmp) {
-			tmp = tmp->next;
-			index++;
-		}
-
-		return index;
-	}
-
-
-
-	/**
 		Const iterator di tipo random-access.
 	*/
 	class const_iterator {
@@ -318,7 +295,6 @@ public:
 			Se l'indice non è valido Lancia un'eccezione.
 			@param index l'indice dell'elemento a cui si vuole accedere
 		*/
-		// Operatore di accesso random
 		reference operator[](const int index) {
 			int cont = 0;
 			const nodo *temp = n;
@@ -332,7 +308,7 @@ public:
 			}
 
 			if (cont != index || temp == 0)
-				throw set_exception("Not enough elements");
+				throw set_exception("Too few elements");
 
 			return temp->value;
 		}
@@ -568,7 +544,7 @@ public:
 	}
 
 
-}; //set
+}; //classe set
 
 /**
 	Stampa tutti gli elementi del set.
