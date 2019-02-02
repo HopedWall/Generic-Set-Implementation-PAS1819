@@ -571,7 +571,7 @@ std::ostream &operator<<(std::ostream &os, const set<T,E> &s) {
 	@return il set di tutti gli elementi che non soddisfano il predicato
 */
 template <typename T, typename E, typename P>
-set<T,E> filter_out(set<T,E> &s, P pred) {
+set<T,E> filter_out(const set<T,E> &s, const P pred) {
 	set<T,E> result;
 	typename set<T,E>::const_iterator i, ie;
 
@@ -589,7 +589,7 @@ set<T,E> filter_out(set<T,E> &s, P pred) {
 	@return il set dato dall'unione di s1 e s2
 */
 template <typename T, typename E>
-set<T,E> operator+(set<T,E> &s1, set<T,E> &s2) {
+set<T,E> operator+(const set<T,E> &s1, const set<T,E> &s2) {
 	set<T,E> result;
 	typename set<T,E>::const_iterator i1, ie1, i2, ie2;
 

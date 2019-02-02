@@ -10,6 +10,12 @@ struct equal_int {
 	}
 };
 
+struct equal_float {
+	bool operator()(float a, float b) const {
+		return ((b-a) < 0.01);
+	}
+};
+
 struct equal_string {
 	bool operator()(std::string a, std::string b) const {
 		return a == b;
@@ -343,6 +349,25 @@ void test_operator_plus() {
 	std::cout << "ok" << std::endl;
 }
 
+void test_iterator_constructor_cast() {
+	std::cout << "---test_iterator_constructor_cast---" << std::endl;
+
+	set<float,equal_float> s1;
+	s1.add(1.5);
+	s1.add(2.7);
+	s1.add(3.9);
+	//std::cout << s1 << std::endl;
+	set<float,equal_float>::const_iterator i=s1.begin(), ie=s1.end();
+	set<int,equal_int> s2(i,ie);
+	//std::cout << s2 << std::endl;
+	assert(s2[0] == 1);
+	assert(s2[1] == 2);
+	assert(s2[2] == 3);
+
+	std::cout << "ok" << std::endl;
+
+}
+
 void test_operator_plus_string() {
 
 	std::cout << "---test_operator_plus_string---" << std::endl;
@@ -424,7 +449,7 @@ void test_remove_voce() {
 
 	rubrica_voci.remove(d); //eliminazione in coda
 	assert(ev(rubrica_voci[1],c));
-	std::cout << rubrica_voci << std::endl;
+	//std::cout << rubrica_voci << std::endl;
 
 	//rubrica_voci.remove(a); //eliminazione in testa
 	//std::cout << rubrica_voci << std::endl;
@@ -709,6 +734,7 @@ int main() {
 	test_print();
 	test_filter_out();
 	test_operator_plus();
+	test_iterator_constructor_cast();
 
 	test_add_string();
 	test_remove_string();
