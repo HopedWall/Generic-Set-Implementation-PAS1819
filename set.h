@@ -348,7 +348,7 @@ public:
 		}
 
 		/**
-			Spostamento in avanti di offset posizioni. Lancia un'eccezione se lo spostamento non è possibile.
+			Spostamento in avanti di offset posizioni.
 			@param offset il numero di posizioni di cui spostarsi
 		*/
 		const_iterator operator+(int offset) const {
@@ -363,7 +363,7 @@ public:
 		}
 
 		/**
-			Spostamento all'indietro di offset posizioni. Lancia un'eccezione se lo spostamento non è possibile.
+			Spostamento all'indietro di offset posizioni.
 			@param offset il numero di posizioni di cui spostarsi
 		*/
 		const_iterator operator-(int offset) const {
@@ -379,7 +379,7 @@ public:
 		}
 
 		/**
-			Spostamento in avanti di offset posizioni. Lancia un'eccezione se lo spostamento non è possibile.
+			Spostamento in avanti di offset posizioni.
 			@param offset il numero di posizioni di cui spostarsi
 		*/
 		const_iterator& operator+=(int offset) {
@@ -392,7 +392,7 @@ public:
 		}
 
 		/**
-			Spostamento all'indietro di offset posizioni. Lancia un'eccezione se lo spostamento non è possibile.
+			Spostamento all'indietro di offset posizioni.
 			@param offset il numero di posizioni di cui spostarsi
 		*/
 		const_iterator& operator-=(int offset) {
